@@ -49,7 +49,7 @@ app.post("/generate", async (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
+app.listen(URL, () => {
     console.log(`Server is running at ${URL}`);
 });
 

@@ -4,7 +4,11 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import 'dotenv/config';
 
+
 const app = express();
+
+const OPEN_API_KEY = "OPEN_API_KEY=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"
+
 const port = 4000;
 
 // Configure CORS
@@ -14,7 +18,7 @@ app.use(cors());
 // Middleware for parsing JSON request bodies
 app.use(bodyParser.json());
 
-const openai = new OpenAI({apiKey: process.env.OPEN_API_KEY});
+const openai = new OpenAI({apiKey: OPEN_API_KEY});
 
 // POST route to handle OpenAI prompts
 app.post("/generate", async (req, res) => {

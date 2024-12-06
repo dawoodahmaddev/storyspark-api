@@ -7,7 +7,7 @@ import 'dotenv/config';
 
 const app = express();
 
-const OPEN_API_KEY = "OPEN_API_KEY=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"
+const OPEN_API_KEY = "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"
 
 const URL = "https://storyspark-api.vercel.app/";
 const port = 80;

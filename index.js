@@ -15,10 +15,21 @@ if (!OPEN_API_KEY) {
 //PORT as per stage local or production
 const port = process.env.PORT || 80;
 
+// Specify the allowed domains
+const allowedDomains = ["https://storyspark-prompt.vercel.app", "http://localhost:3000"];
 
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (allowedDomains.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+};
 
-// Configure CORS
-app.use(cors());
+// Configure CORS with the custom domains
+app.use(cors(corsOptions));
 
 // Middleware for parsing JSON request bodies
 app.use(bodyParser.json());

@@ -11,7 +11,7 @@ const OPEN_API_KEY = process.env.OPEN_API_KEY
 if (!OPEN_API_KEY) {
     console.error("API Key is missing. Please set it in Vercel environment variables.");
     process.exit(1); // Stop execution if the API key is missing
-  }
+}
 //PORT as per stage local or production
 const port = process.env.PORT || 80;
 
@@ -81,6 +81,23 @@ app.get("/", (req, res) => {
 }
                 </pre>
             </div>
+            <hr />
+            <div class="endpoint">
+                <h2>POST /image</h2>
+                <p>Generate image from OpenAI based on the provided prompt.</p>
+                <strong>Request Body:</strong>
+                <pre>
+{
+    "prompt": "string (required)"
+}
+                </pre>
+                <strong>Response:</strong>
+                <pre>
+{
+    "imageURL": "string - image url"
+}
+                </pre>
+            </div>
         </body>
         </html>
     `);
@@ -127,6 +144,29 @@ app.post("/generate", async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
+// POST to OpenAI Image
+app.post("/image", async (req, res) => {
+    try {
+        const { prompt } = req.body;
+
+        if (!prompt) {
+            return res.status(400).json({ error: "Prompt is required" });
+        }
+
+        const response = await openai.images.generate({
+            model: "dall-e-2",
+            prompt: prompt,
+            n: 1,
+            size: "512x512",
+        });
+        return res.status(200).json(response.data[0].url);
+    } catch (error) {
+        console.error("Error generating response:", error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 // Start the server
 app.listen(port, () => {
